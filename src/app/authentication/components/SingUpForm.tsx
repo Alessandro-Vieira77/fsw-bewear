@@ -34,7 +34,7 @@ const FormSchema = z
       .min(1, "Nome é obrigatório"),
     email: z.email("Digite um email válido"),
     password: z.string().min(8, {
-      message: "Digite no minímo 8 caracterces",
+      message: "Digite no minímo 8 caracteres",
     }),
     passConfirm: z.string("Senha inválida").min(8, {
       message: "Digite no minímo 8 caracterces",
