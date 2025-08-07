@@ -1,5 +1,7 @@
 "use client";
 
+import { authClient } from "@/lib/auth-client";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -40,7 +42,7 @@ export function SignInForm() {
     },
   });
 
-  function onSubmit(values: FormValues) {
+  async function onSubmit(values: FormValues) {
     console.log("Dados enviados com sucesso");
     console.log(values);
   }

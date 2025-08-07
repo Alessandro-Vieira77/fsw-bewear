@@ -9,7 +9,7 @@ import {
 } from "drizzle-orm/pg-core";
 
 // Tabela de usuários
-export const userTable = pgTable("userTable", {
+export const userTable = pgTable("user", {
   id: text("id").primaryKey(),
   name: text("name").notNull(),
   email: text("email").notNull().unique(),
@@ -25,7 +25,7 @@ export const userTable = pgTable("userTable", {
     .notNull(),
 });
 
-export const session = pgTable("session", {
+export const sessionTable = pgTable("session", {
   id: text("id").primaryKey(),
   expiresAt: timestamp("expires_at").notNull(),
   token: text("token").notNull().unique(),
@@ -38,7 +38,7 @@ export const session = pgTable("session", {
     .references(() => userTable.id, { onDelete: "cascade" }),
 });
 
-export const account = pgTable("account", {
+export const accountTable = pgTable("account", {
   id: text("id").primaryKey(),
   accountId: text("account_id").notNull(),
   providerId: text("provider_id").notNull(),
