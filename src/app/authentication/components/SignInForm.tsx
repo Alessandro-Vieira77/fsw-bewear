@@ -70,8 +70,7 @@ export function SignInForm() {
               message: "E-mail ou senha inválidos",
             });
           }
-          toast.error("Erro ao fazer login, tente novamente mais tarde");
-          console.log("Error on sign in:", ctx.error.message);
+          toast.error("Erro ao fazer login");
         },
       },
     });
