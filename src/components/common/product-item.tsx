@@ -3,6 +3,7 @@ import { productTable, productVariantTable } from "@/db/schema";
 import Link from "next/link";
 import Image from "next/image";
 import { formatCentsToBRL } from "@/helpers/money";
+import { cn } from "@/lib/utils";
 
 //  produtos e variantes
 interface ProductListProps {
@@ -10,9 +11,13 @@ interface ProductListProps {
   products: typeof productTable.$inferSelect & {
     variants: (typeof productVariantTable.$inferSelect)[];
   };
+  textContainerClassName?: string;
 }
 
-export default function ProductItem({ products }: ProductListProps) {
+export default function ProductItem({
+  products,
+  textContainerClassName,
+}: ProductListProps) {
   const firstVariant = products.variants[0];
   return (
     <div className="">
@@ -20,12 +25,18 @@ export default function ProductItem({ products }: ProductListProps) {
         <Image
           src={firstVariant.imageUrl}
           alt={firstVariant.name}
-          width={200}
-          height={200}
-          className="rounded-3xl"
+          sizes="100vh"
+          width={0}
+          height={0}
+          className="h-auto w-auto rounded-3xl"
         />
 
-        <div className="flex max-w-[200px] flex-col gap-1">
+        <div
+          className={cn(
+            "flex max-w-[200px] flex-col gap-1",
+            textContainerClassName,
+          )}
+        >
           <p className="truncatte text-sm font-medium">{products.name}</p>
 
           <p className="text-muted-forenground truncate text-xs font-medium">

@@ -18,7 +18,9 @@ export default function Header() {
 
   return (
     <header className="flex items-center justify-between p-5">
-      <Image alt="BEWEAR" src={"/logo.svg"} width={100} height={26.14} />
+      <Link href="/">
+        <Image alt="BEWEAR" src={"/logo.svg"} width={100} height={26.14} />
+      </Link>
 
       <div className="flex-tems-center">
         <Sheet>
@@ -40,6 +42,7 @@ export default function Header() {
                     <div className="flex items-center gap-3">
                       <Avatar>
                         <AvatarImage
+                          className="h-10 w-10 rounded-full"
                           src={session?.user?.image as string | undefined}
                         />
                         <AvatarFallback>
