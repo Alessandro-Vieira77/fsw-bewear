@@ -11,9 +11,8 @@ export default function CategorySelector({ categorys }: CategorySelectorProps) {
     <div className="rounded-3xl bg-[#F4EFFF] p-5">
       <div className="grid grid-cols-2 gap-3">
         {categorys.map((category) => (
-          <Link href={`/category/${category.slug}`}>
+          <Link key={category.id} href={`/category/${category.slug}`}>
             <Button
-              key={category.id}
               variant={"ghost"}
               className="w-full rounded-full bg-white text-xs font-semibold"
             >
