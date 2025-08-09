@@ -3,6 +3,8 @@ import Header from "@/components/common/header";
 import ProductList from "@/components/common/product-list";
 import { Button } from "@/components/ui/button";
 import { db } from "@/db";
+import { productTable } from "@/db/schema";
+import { desc } from "drizzle-orm";
 import Image from "next/image";
 
 export default async function Home() {
@@ -14,6 +16,13 @@ export default async function Home() {
   });
 
   const categorys = await db.query.categoryTable.findMany({});
+
+  const newlyCreatedProducts = await db.query.productTable.findMany({
+    orderBy: [desc(productTable.createdAt)],
+    with: {
+      variants: true,
+    },
+  });
 
   return (
     <>
@@ -48,6 +57,8 @@ export default async function Home() {
             className="h-auto w-full"
           />
         </div>
+
+        <ProductList products={newlyCreatedProducts} title="Novos produtos" />
       </div>
     </>
   );
