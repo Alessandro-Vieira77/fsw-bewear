@@ -1,4 +1,5 @@
 import CategorySelector from "@/components/common/category-selector";
+import Footer from "@/components/common/footer";
 import Header from "@/components/common/header";
 import ProductList from "@/components/common/product-list";
 import { Button } from "@/components/ui/button";
@@ -59,6 +60,8 @@ export default async function Home() {
         </div>
 
         <ProductList products={newlyCreatedProducts} title="Novos produtos" />
+
+        <Footer />
       </div>
     </>
   );
