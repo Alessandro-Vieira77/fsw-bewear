@@ -12,6 +12,7 @@ import {
 import { authClient } from "@/lib/auth-client";
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import Link from "next/link";
+import Cart from "./cart";
 
 export default function Header() {
   const { data: session } = authClient.useSession();
@@ -22,7 +23,7 @@ export default function Header() {
         <Image alt="BEWEAR" src={"/logo.svg"} width={100} height={26.14} />
       </Link>
 
-      <div className="flex-tems-center">
+      <div className="flex items-center gap-2">
         <Sheet>
           {/* asChild vai aplicar o estilo em seu butt */}
           <SheetTrigger asChild>
@@ -80,6 +81,7 @@ export default function Header() {
             </div>
           </SheetContent>
         </Sheet>
+        <Cart />
       </div>
     </header>
   );
