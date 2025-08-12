@@ -1,25 +1,23 @@
+import { eq } from "drizzle-orm";
+import Image from "next/image";
+import { notFound } from "next/navigation";
+
+import Footer from "@/components/common/footer";
 import Header from "@/components/common/header";
+import ProductList from "@/components/common/product-list";
 import { db } from "@/db";
 import { productTable, productVariantTable } from "@/db/schema";
-import { eq } from "drizzle-orm";
-import { notFound } from "next/navigation";
-import Image from "next/image";
 import { formatCentsToBRL } from "@/helpers/money";
-import { Button } from "@/components/ui/button";
-import ProductList from "@/components/common/product-list";
-import Footer from "@/components/common/footer";
-import VariantSelector from "@/app/category/components/variant-selector";
-import QuantitySelector from "@/app/category/components/quantity-selector";
 
-interface ProductsVariantsPageProps {
+import ProductActions from "./components/product-actions";
+import VariantSelector from "./components/variant-selector";
+
+interface ProductVariantPageProps {
   params: Promise<{ slug: string }>;
 }
 
-export default async function ProductVariantsPage({
-  params,
-}: ProductsVariantsPageProps) {
+const ProductVariantPage = async ({ params }: ProductVariantPageProps) => {
   const { slug } = await params;
-
   const productVariant = await db.query.productVariantTable.findFirst({
     where: eq(productVariantTable.slug, slug),
     with: {
@@ -30,31 +28,26 @@ export default async function ProductVariantsPage({
       },
     },
   });
-
   if (!productVariant) {
     return notFound();
   }
-
   const likelyProducts = await db.query.productTable.findMany({
     where: eq(productTable.categoryId, productVariant.product.categoryId),
     with: {
       variants: true,
     },
   });
-
   return (
     <>
       <Header />
-      {/* Image : para ter um melhor controle sobre o tamaho da imagem*/}
-
       <div className="flex flex-col space-y-6">
         <Image
-          alt={productVariant.slug}
           src={productVariant.imageUrl}
-          width={0}
+          alt={productVariant.name}
+          sizes="100vw"
           height={0}
-          sizes="100vh"
-          className="h-auto w-full"
+          width={0}
+          className="h-auto w-full object-cover"
         />
 
         <div className="px-5">
@@ -65,7 +58,7 @@ export default async function ProductVariantsPage({
         </div>
 
         <div className="px-5">
-          {/* descrição */}
+          {/* DESCRIÇÃO */}
           <h2 className="text-lg font-semibold">
             {productVariant.product.name}
           </h2>
@@ -77,22 +70,10 @@ export default async function ProductVariantsPage({
           </h3>
         </div>
 
-        <div className="px-5">
-          <QuantitySelector />
-        </div>
-
-        <div className="flex flex-col space-y-4 px-5">
-          {/* botões */}
-          <Button className="rounded-full" variant={"outline"} size={"lg"}>
-            Adicionar á sacola
-          </Button>
-          <Button className="rounded-full" size={"lg"}>
-            Comprar agora
-          </Button>
-        </div>
+        <ProductActions productVariantId={productVariant.id} />
 
         <div className="px-5">
-          <p className="text-shadow-amber-500">
+          <p className="text-shadow-amber-600">
             {productVariant.product.description}
           </p>
         </div>
@@ -103,4 +84,6 @@ export default async function ProductVariantsPage({
       </div>
     </>
   );
-}
+};
+
+export default ProductVariantPage;
